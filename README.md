@@ -24,7 +24,8 @@ dotnet publish -c Release
 See [Neo Plug-ins page](http://docs.neo.org/en-us/node/plugin.html)
 
 ## Usage:
-```findstorage {contract script hash} {key prefix} [start index] [number of results]
+```
+findstorage <contract script hash> <key prefix> [start index] [number of results]
 ```
 
 ## Example:
