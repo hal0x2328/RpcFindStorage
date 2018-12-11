@@ -12,7 +12,7 @@ smart contract running inside the Neo VM.
 
 Currently the Neo source code needs to be modified using this [patch](https://github.com/neo-project/neo/pull/514/files?diff)
 
-## Compile:
+## Compile
 ```
 git clone https://github.com/neo-project/neo
 git clone https://github.com/hal0x2328/RpcFindStorage
@@ -23,12 +23,12 @@ dotnet publish -c Release
 ## Install
 See [Neo Plug-ins page](http://docs.neo.org/en-us/node/plugin.html)
 
-## Usage:
+## Usage
 ```
 findstorage <contract script hash> <key prefix> [start index] [number of results]
 ```
 
-## Example:
+## Example
 ```
 {
   "jsonrpc": "2.0",
@@ -43,7 +43,7 @@ findstorage <contract script hash> <key prefix> [start index] [number of results
 }
 ```
 
-## Result:
+## Result
 ```
 {
     "jsonrpc": "2.0",
