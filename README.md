@@ -21,12 +21,12 @@ dotnet publish -c Release
 ## Install
 See [Neo Plug-ins page](http://docs.neo.org/en-us/node/plugin.html)
 
-## Usage
+## Method parameters
 ```
 findstorage <contract script hash> <key prefix> [start index] [number of results]
 ```
 
-## Example
+## Example request
 ```
 {
   "jsonrpc": "2.0",
@@ -41,7 +41,7 @@ findstorage <contract script hash> <key prefix> [start index] [number of results
 }
 ```
 
-## Result
+## Example result
 ```
 {
     "jsonrpc": "2.0",
