@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Http;
 using Neo.IO.Json;
-using Neo.Network.RPC;
 using Neo.Ledger;
-using Neo.SmartContract.Iterators;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Collections.Generic;
 
 namespace Neo.Plugins
 {
@@ -26,7 +23,6 @@ namespace Neo.Plugins
                 byte[] prefix_key;
                 int toskip = 0;
                 int totake = 0;
-                StorageIterator iterator;
 
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -43,37 +39,30 @@ namespace Neo.Plugins
                         ms.Write(prefix, index, remain);
                     prefix_key = script_hash.ToArray()
                         .Concat(ms.ToArray()).ToArray();
-                } 
+                }
 
                 if (_params.Count > 2)
                     toskip = int.Parse(_params[2].AsString());
-	        if (_params.Count > 3)
+                if (_params.Count > 3)
                     totake = int.Parse(_params[3].AsString());
 
-                iterator = new StorageIterator(
-                    Blockchain.Singleton.Store.GetStorages()
+                var iterator = Blockchain.Singleton.Store.GetStorages()
                     .Find(prefix_key)
-                    .Where(p => p.Key.Key.Take(prefix.Length)
-                        .SequenceEqual(prefix)).GetEnumerator()
-                );
-                List<JObject> result = new List<JObject>();
-                foreach(KeyValuePair<StorageKey, StorageItem> p in iterator)
-		{
-                    JObject item = new JObject();
-                    item["key"] = iterator.Key().GetByteArray().ToHexString();
-                    item["value"] = iterator.Value().GetByteArray().ToHexString();
-                    result.Add(item);
-                }
-                iterator.Dispose();
-                if (result.Count > 0)
+                    .Where(p => p.Key.Key.Take(prefix.Length).SequenceEqual(prefix))
+                    .Skip(toskip);
+                if (totake > 0)
+                    iterator = iterator.Take(totake);
+
+                JArray array = new JArray();
+                foreach (KeyValuePair<StorageKey, StorageItem> p in iterator)
                 {
-                   if (totake > 0)
-                        return result.Skip(toskip).Take(totake).ToArray();
-                   else
-                        return result.Skip(toskip).ToArray();
+                    JObject item = new JObject();
+                    item["key"] = p.Key.Key.ToHexString();
+                    item["value"] = p.Value.Value.ToHexString();
+                    array.Add(item);
                 }
-                else 
-                   return "No matches found.";
+
+                return array;
             }
             return null;
         }
