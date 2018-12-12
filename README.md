@@ -10,8 +10,6 @@ owned by a particular address. This removes complexity from the smart contract
 and overhead required if the same query was answered by an operation in the
 smart contract running inside the Neo VM.
 
-Currently the Neo source code needs to be modified using this [patch](https://github.com/neo-project/neo/pull/514/files?diff)
-
 ## Compile
 ```
 git clone https://github.com/neo-project/neo
