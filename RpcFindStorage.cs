@@ -14,6 +14,10 @@ namespace Neo.Plugins
         {
         }
 
+        public void PreProcess(HttpContext context, string method, JArray _params)
+        {
+        }
+
         public JObject OnProcess(HttpContext context, string method, JArray _params)
         {
             if (method == "findstorage")
@@ -65,6 +69,10 @@ namespace Neo.Plugins
                 return array;
             }
             return null;
+        }
+        
+        public void PostProcess(HttpContext context, string method, JArray _params, JObject result)
+        {
         }
     }
 }
